@@ -9,8 +9,7 @@ public class Doctor {
     private String especialidad;
     private String codigoEpico;
 
-    public Doctor(String nombre, String apellido, String dui, String cumpleanios,
-                  String fechaReclutamiento, String especialidad, String codigoEpico) {
+    public Doctor(String nombre, String apellido, String dui, String cumpleanios, String fechaReclutamiento, String especialidad, String codigoEpico) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dui = dui;
