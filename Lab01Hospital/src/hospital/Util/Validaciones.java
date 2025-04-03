@@ -6,4 +6,9 @@ public class Validaciones {
         return codigo.matches("ZNH-\\d[A-Za-z]\\d-MD-[A-Za-z]\\d");
     }
 
+    public static boolean validarDui(String dui){
+
+        return dui.matches("^\\d{8}-\\d$");
+    }
+
 }

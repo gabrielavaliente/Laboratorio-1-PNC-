@@ -1,23 +1,58 @@
 package hospital.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Paciente {
     private String nombre;
     private String apellido;
+    private String nombreCompleto;
     private String dui;
-    private String cumpleanos;
+    private LocalDate cumpleanos;
+    long edad;
+    private ArrayList<LocalDateTime> fechasCitas = new ArrayList<>(List.of());
+    private ArrayList<Cita> citas = new ArrayList<>(List.of());
 
-    public Paciente(String nombre, String apellido, String dui, String cumpleanos) {
+
+    public Paciente(String nombre, String apellido, String dui, LocalDate cumpleanos) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.dui = dui;
-        this.cumpleanos = cumpleanos;
+        this.nombreCompleto = nombre+" "+apellido;
+        this.cumpleanos=cumpleanos;
+        this.edad = ChronoUnit.YEARS.between(cumpleanos,LocalDate.now());
+        if(ChronoUnit.YEARS.between(cumpleanos,LocalDate.now())<18){
+            this.dui = "00000000-0";
+        }else{
+            this.dui = dui;
+        }
+
+    }
+
+    public boolean validarDisponibilidad(LocalDateTime fecha){
+        System.out.println("Validando disponibilidad de cita");
+        for (Cita cita : citas) {
+            if (cita.getFecha().isEqual(fecha)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void agregarCita(Cita cita){
+        this.citas.add(cita);
+
     }
 
     // Getters y Setters
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public String getDui() { return dui; }
-    public String getCumpleanos() { return cumpleanos; }
+    public String getCumpleanos() { return cumpleanos.toString(); }
+    public String getNombreCompleto(){return nombreCompleto;}
+    public long getEdad(){return edad;}
 
     @Override
     public String toString() {

@@ -1,21 +1,22 @@
 package hospital.model;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class Cita {
     private Doctor doctor;
     private Paciente paciente;
     private String especialidad;
-    private String fecha;
-    private String hora;
+    private LocalDateTime fecha;
     private boolean atendida;
     private boolean pacienteLlego;
     private boolean trajoGalletas;
 
-    public Cita(Doctor doctor, Paciente paciente, String especialidad,String fecha, String hora) {
+    public Cita(Doctor doctor, Paciente paciente, String especialidad, LocalDateTime fecha) {
         this.doctor = doctor;
         this.paciente = paciente;
         this.especialidad = especialidad;
         this.fecha = fecha;
-        this.hora = hora;
         this.atendida = false;
         this.pacienteLlego = false;
         this.trajoGalletas = false;
@@ -24,8 +25,7 @@ public class Cita {
     public Doctor getDoctor() { return doctor; }
     public Paciente getPaciente() { return paciente; }
     public String getEspecialidad() { return especialidad; }
-    public String getFecha() { return fecha; }
-    public String getHora() { return hora; }
+    public LocalDateTime getFecha() { return fecha; }
     public boolean isAtendida() { return atendida; }
     public boolean isPacienteLlego() { return pacienteLlego; }
     public boolean isTrajoGalletas() { return trajoGalletas; }
@@ -37,6 +37,6 @@ public class Cita {
     @Override
     public String toString() {
         return "Cita para " + paciente.getNombre() + " con Dr. " + doctor.getNombre() +
-                " (" + especialidad + ") el " + fecha + " a las " + hora;
+                " (" + especialidad + ") el " + fecha.getDayOfMonth() +" " +  fecha.getMonth() + " " + fecha.getYear() + " a las " + fecha.getHour();
     }
 }
