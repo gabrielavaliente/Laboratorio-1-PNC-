@@ -114,6 +114,8 @@ public class Doctor {
     public String getEspecialidad() { return especialidad; }
     public String getCodigoEpico() { return codigoEpico; }
     public String getNombreCompleto(){return nombreCompleto;}
+    public ArrayList<Cita> getCitas() {return citas;
+    }
 
 
 

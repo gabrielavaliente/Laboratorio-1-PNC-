@@ -33,6 +33,8 @@ public class Main {
             System.out.println("4. Ver todas las citas medicas");
             System.out.println("5. Buscar citas medicas por doctor");
             System.out.println("6. Cancelar cita");
+            System.out.println("7. Mostrar todos los doctores");
+            System.out.println("8. Mostrar todos los paciente");
             System.out.println("0. Salir ");
             System.out.print("\nSeleccione una opción: ");
 
@@ -216,35 +218,146 @@ public class Main {
 
                 case 4:
                     System.out.println("\n[Ver todas las citas]");
+                    if (listaDoctores.isEmpty()) {
+                        System.out.println("No hay doctores registrados, se debe registrar doctor para agendar cita");
+                        break;
+                    }
+
+                    boolean hayCitas = false;
+                    for (Doctor doc : listaDoctores) {
+                        if (!doc.getCitas().isEmpty()) {
+                            hayCitas = true;
+                            System.out.println("\n- Citas del Dr. " + doc.getNombreCompleto() );
+                            for (Cita haycita : doc.getCitas()) {
+                                System.out.println(haycita.toString());
+                                System.out.println("  - Paciente llegó: " + (haycita.isPacienteLlego() ? "Sí" : "No"));
+                                System.out.println("  - Atendida: " + (haycita.isAtendida() ? "Sí" : "No"));
+                                System.out.println("  - Trajo galletas: " + (haycita.isTrajoGalletas() ? "Sí" : "No"));
+                            }
+                        }
+                    }
+
+                    if (!hayCitas) {
+                        System.out.println("No hay citas agendadas");
+                    }
                     break;
 
                 case 5:
                     System.out.println("\n[Buscar citas por doctor]");
+                    if (listaDoctores.isEmpty()) {
+                        System.out.println("No hay doctores registrados");
+                        break;
+                    }
+
+                    System.out.println("\nSeleccione el doctor para ver sus citas:");
+                    for (int i = 0; i < listaDoctores.size(); i++) {
+                        System.out.println((i+1) + ". " + listaDoctores.get(i).getNombreCompleto() +
+                                " (" + listaDoctores.get(i).getCodigoEpico() + ")");
+                    }
+
+                    int doctorABuscar = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (doctorABuscar < 1 || doctorABuscar > listaDoctores.size()) {
+                        System.out.println("Opción inválida");
+                        break;
+                    }
+
+                    Doctor doctorSeleccionadoBusqueda = listaDoctores.get(doctorABuscar - 1);
+                    if (doctorSeleccionadoBusqueda.getCitas().isEmpty()) {
+                        System.out.println("\nEl Dr. " + doctorSeleccionadoBusqueda.getNombreCompleto() +
+                                " no tiene citas agendadas");
+                    } else {
+                        System.out.println("\n Todas las citas del Dr. " +
+                                doctorSeleccionadoBusqueda.getNombreCompleto());
+                        for (Cita haycita : doctorSeleccionadoBusqueda.getCitas()) {
+                            System.out.println("\nPaciente: " + haycita.getPaciente().getNombreCompleto());
+                            System.out.println("Motivo: " + haycita.getEspecialidad());
+                            System.out.println("Fecha: " + haycita.getFecha().format(
+                                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                            System.out.println("Trajo galletas: " + (haycita.isTrajoGalletas() ? "Sí" : "No"));
+                        }
+                    }
                     break;
 
                 case 6:
                     System.out.println("\n[Cancelar cita]");
+                    if (listaDoctores.isEmpty()) {
+                        System.out.println("No hay doctores registrados, se debe de registrar doctores para agendar cita");
+                        break;
+                    }
+
+                    System.out.println("\nSeleccione el doctor para ver y cancelar sus citas:");
+                    for (int i = 0; i < listaDoctores.size(); i++) {
+                        System.out.println((i+1) + ". " + listaDoctores.get(i).getNombreCompleto());
+                    }
+
+                    int doctorACancelar = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (doctorACancelar < 1 || doctorACancelar > listaDoctores.size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+
+                    Doctor doctorCancelar = listaDoctores.get(doctorACancelar - 1);
+                    if (doctorCancelar.getCitas().isEmpty()) {
+                        System.out.println("\nEl Dr. " + doctorCancelar.getNombreCompleto() +
+                                " no tiene citas agendadas para cancelar.");
+                        break;
+                    }
+
+                    System.out.println("\n Citas del Dr. " + doctorCancelar.getNombreCompleto() );
+                    for (int i = 0; i < doctorCancelar.getCitas().size(); i++) {
+                        Cita haycita = doctorCancelar.getCitas().get(i);
+                        System.out.println((i+1) + ". " + haycita.getPaciente().getNombreCompleto() +
+                                " - " + haycita.getFecha().format(
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                    }
+
+                    System.out.println("\nSeleccione la cita a cancelar:");
+                    int citaACancelar = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (citaACancelar == 0) {
+                        System.out.println("Operación cancelada.");
+                        break;
+                    }
+
+                    if (citaACancelar < 1 || citaACancelar > doctorCancelar.getCitas().size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+
+                    Cita citaCancelada = doctorCancelar.getCitas().get(citaACancelar - 1);
+                    doctorCancelar.getCitas().remove(citaCancelada);
+                    citaCancelada.getPaciente().getCitas().remove(citaCancelada);
+
+                    System.out.println("\nCita cancelada exitosamente.");
                     break;
 
-                case 0:
-                    System.out.println("\nSaliendo....");
-                    break;
-
-                case 10:
+                case 7:
                     System.out.println("\nImprimiendo doctores");
                     listaDoctores.forEach(doc -> {
                         System.out.println(doc.toString());
                     });
                     break;
-                case 11:
+                case 8:
                     System.out.println("\nImprimiendo pacientes");
                     listaPacientes.forEach(paci->{
                         System.out.println(paci.getNombreCompleto() +" " +paci.getEdad()+ " "+paci.getDui());
                     });
                     break;
 
+
+                case 0:
+                    System.out.println("\nSaliendo....");
+                    break;
+
                 default:
-                    System.out.println("\n Elegir número entre 0-6");
+                    System.out.println("\n Elegir número entre 0-8");
+
+
             }
 
         } while(opcion != 0);

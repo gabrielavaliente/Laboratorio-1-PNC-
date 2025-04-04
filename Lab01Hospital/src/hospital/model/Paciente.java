@@ -53,6 +53,8 @@ public class Paciente {
     public String getCumpleanos() { return cumpleanos.toString(); }
     public String getNombreCompleto(){return nombreCompleto;}
     public long getEdad(){return edad;}
+    public ArrayList<Cita> getCitas() {return citas;
+    }
 
     @Override
     public String toString() {
