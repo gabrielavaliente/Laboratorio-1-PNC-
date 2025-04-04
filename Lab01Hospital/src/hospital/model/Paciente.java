@@ -13,7 +13,7 @@ public class Paciente {
     private String dui;
     private LocalDate cumpleanos;
     long edad;
-    private ArrayList<LocalDateTime> fechasCitas = new ArrayList<>(List.of());
+
     private ArrayList<Cita> citas = new ArrayList<>(List.of());
 
 
@@ -34,7 +34,7 @@ public class Paciente {
     public boolean validarDisponibilidad(LocalDateTime fecha){
         System.out.println("Validando disponibilidad de cita");
         for (Cita cita : citas) {
-            if (cita.getFecha().isEqual(fecha)) {
+            if (cita.getFecha().getHour()==fecha.getHour() && cita.getFecha().getDayOfMonth()==fecha.getDayOfMonth() && cita.getFecha().getMonthValue()==fecha.getMonthValue()) {
                 return true;
             }
         }
@@ -58,6 +58,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return nombre + " " + apellido + " (DUI: " + dui + ")";
+        return nombreCompleto + " (DUI: " + dui + ")"+ " Edad: "+ edad;
     } 
 }

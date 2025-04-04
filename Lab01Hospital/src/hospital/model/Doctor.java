@@ -116,6 +116,8 @@ public class Doctor {
     public String getNombreCompleto(){return nombreCompleto;}
     public ArrayList<Cita> getCitas() {return citas;
     }
+    public ArrayList<LocalDateTime> getFechasCitasFuturas() { return fechasCitasFuturas; }
+    public ArrayList<LocalDateTime> getFechasCitasHoy() { return fechasCitasHoy; }
 
 
 

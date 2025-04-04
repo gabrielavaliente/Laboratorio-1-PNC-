@@ -8,7 +8,7 @@ public class Cita {
     private Paciente paciente;
     private String especialidad;
     private LocalDateTime fecha;
-    private boolean atendida;
+
     private boolean pacienteLlego;
     private boolean trajoGalletas;
 
@@ -17,8 +17,6 @@ public class Cita {
         this.paciente = paciente;
         this.especialidad = especialidad;
         this.fecha = fecha;
-        this.atendida = false;
-        this.pacienteLlego = false;
         this.trajoGalletas = false;
     }
     // Getters y Setters
@@ -26,17 +24,17 @@ public class Cita {
     public Paciente getPaciente() { return paciente; }
     public String getEspecialidad() { return especialidad; }
     public LocalDateTime getFecha() { return fecha; }
-    public boolean isAtendida() { return atendida; }
     public boolean isPacienteLlego() { return pacienteLlego; }
     public boolean isTrajoGalletas() { return trajoGalletas; }
 
-    public void setAtendida(boolean atendida) { this.atendida = atendida; }
+
     public void setPacienteLlego(boolean pacienteLlego) { this.pacienteLlego = pacienteLlego; }
     public void setTrajoGalletas(boolean trajoGalletas) { this.trajoGalletas = trajoGalletas; }
 
     @Override
     public String toString() {
-        return "Cita para " + paciente.getNombre() + " con Dr. " + doctor.getNombre() +
-                " (" + especialidad + ") el " + fecha.getDayOfMonth() +" " +  fecha.getMonth() + " " + fecha.getYear() + " a las " + fecha.getHour();
+        String fechaFormateada = fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm a"));
+        return "Cita para " + paciente.getNombreCompleto() + " con Dr. " + doctor.getNombreCompleto()+
+                " (" + especialidad + ") el " + fechaFormateada;
     }
 }
